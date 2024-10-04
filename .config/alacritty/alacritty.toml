@@ -1,0 +1,24 @@
+# https://github.com/alacritty/alacritty-theme
+import = ["~/.config/alacritty/themes/themes/argonaut.toml"]
+
+[shell]
+program = "/bin/zsh"
+args = ["-l"]
+
+[window]
+decorations = "Transparent"
+startup_mode = "Maximized"
+dynamic_title = true
+padding = { x = 0, y = 18 }
+dynamic_padding = true
+
+[font]
+normal = { family = "JetBrainsMono Nerd Font", style = "Regular" }
+size = 20
+
+
+[keyboard]
+bindings = [
+	{ key = "C", mods = "Command", Action = "Copy" },
+	{ key = "V", mods = "Command", Action = "Paste" },
+]
