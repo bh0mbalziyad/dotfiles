@@ -1,3 +1,5 @@
 .config/tmux/plugins
 .config/alacritty/themes
 .config/tmuxinator
+tmux/.config/tmux/plugins
+alacritty/.config/alacritty/themes
