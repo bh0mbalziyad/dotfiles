@@ -434,6 +434,13 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader>sl', builtin.quickfixhistory, { desc = '[S]earch Quick Fix [L]ists' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+      vim.keymap.set('n', '<leader>sz', function()
+        builtin.grep_string {
+          search = '', -- Start with an empty search for fuzzy matching
+          use_regex = false, -- Enable fuzzy pattern matching
+          search_dirs = vim.fn.systemlist 'git ls-files', -- Git-tracked files only
+        }
+      end, { desc = '[S]earch Fu[z]zy over project files' })
 
       -- Quickfix list keymaps
       vim.keymap.set('n', '<leader>qL', builtin.quickfixhistory, { desc = 'Open [Q]uickfix All [L]ists' })
