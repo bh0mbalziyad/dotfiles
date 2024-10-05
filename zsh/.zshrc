@@ -5,11 +5,19 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+export FZF_DEFAULT_OPTS="--preview 'bat --color=always {}'"
+export EDITOR="nvim"
 export XDG_CONFIG_HOME="$HOME/.config"
+export GPG_TTY=$(tty)
+
+# eval homebrew on macos
+# eval "$(/opt/homebrew/bin/brew shellenv)"
+# eval homebrew on windows
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+eval "$(fzf --zsh)"
 
 # zinit & plugins directory
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
-
 
 if [ ! -d "$ZINIT_HOME" ]; then
 	mkdir -p "$(dirname $ZINIT_HOME)"
@@ -57,15 +65,10 @@ setopt hist_ignore_all_dups
 setopt hist_ignore_dups
 setopt hist_find_no_dups
 
-
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' list-colors '${(s.:.)LS_COLORS}'
 zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
-
-
-eval "$(fzf --zsh)"
-eval "$(/opt/homebrew/bin/brew shellenv)"
 
 alias ls='ls --color'
 alias l='ls -lh'
@@ -73,7 +76,6 @@ alias la='ls -lah'
 alias lg="lazygit"
 alias c="code"
 alias vim="nvim"
-export EDITOR="nvim"
 alias py="python"
 alias mux="tmuxinator"
 
@@ -81,24 +83,14 @@ if [ -f ~/.zsh.local ]; then
   source ~/.zsh.local
 fi
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm)"
 
-export GPG_TTY=$(tty)
 PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
-
-export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
-
-# pnpm
-export PNPM_HOME="/Users/radical/Library/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end
+if command -v pyenv >/dev/null 2>&1; then
+  export PYENV_ROOT="$HOME/.pyenv"
+  command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+  eval "$(pyenv init -)"
+  eval "$(pyenv virtualenv-init -)"
+fi
