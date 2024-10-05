@@ -1,3 +1,4 @@
+os_name=$(uname)
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -10,26 +11,29 @@ export EDITOR="nvim"
 export XDG_CONFIG_HOME="$HOME/.config"
 export GPG_TTY=$(tty)
 
-# eval homebrew on macos
-# eval "$(/opt/homebrew/bin/brew shellenv)"
-# eval homebrew on windows
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-eval "$(fzf --zsh)"
+
+# homebrew completions
+
+if [[ "$os_name" == "Darwin" ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [[ "$os_name" == "Linux" ]]; then
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fi
+
+# fzf completions
+if command -v fzf >/dev/null 2>&1; then
+  eval "$(fzf --zsh)"
+fi
 
 # zinit & plugins directory
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
-
 if [ ! -d "$ZINIT_HOME" ]; then
 	mkdir -p "$(dirname $ZINIT_HOME)"
 	git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
 fi
-
 source "${ZINIT_HOME}/zinit.zsh"
 
 zinit ice depth=1; zinit light romkatv/powerlevel10k
-# Add powerlevel10k
-
-# zsh plugins
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-autosuggestions
@@ -41,9 +45,8 @@ zinit snippet OMZP::git
 zinit snippet OMZP::aws
 zinit snippet OMZP::command-not-found
 
-autoload -U compinit && compinit
 # load completions
-
+autoload -U compinit && compinit
 zinit cdreplay -q
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
@@ -86,7 +89,9 @@ fi
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm)"
 
-PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+if [[ "$os_name" == "Darwin" ]]; then
+  PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+fi
 
 if command -v pyenv >/dev/null 2>&1; then
   export PYENV_ROOT="$HOME/.pyenv"
