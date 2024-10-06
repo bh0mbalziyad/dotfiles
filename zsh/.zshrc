@@ -12,12 +12,18 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export GPG_TTY=$(tty)
 
 
-# homebrew completions
+# brew cli completions
 
 if [[ "$os_name" == "Darwin" ]]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 elif [[ "$os_name" == "Linux" ]]; then
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fi
+
+
+# completions for apps installed with brew
+if [ -d /opt/homebrew/share/zsh/site-functions ]; then
+  fpath=($fpath /opt/homebrew/share/zsh/site-functions)
 fi
 
 # fzf completions
@@ -28,8 +34,8 @@ fi
 # zinit & plugins directory
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 if [ ! -d "$ZINIT_HOME" ]; then
-	mkdir -p "$(dirname $ZINIT_HOME)"
-	git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+  mkdir -p "$(dirname $ZINIT_HOME)"
+  git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
 fi
 source "${ZINIT_HOME}/zinit.zsh"
 
@@ -73,14 +79,13 @@ zstyle ':completion:*' list-colors '${(s.:.)LS_COLORS}'
 zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 
-alias ls='ls --color'
-alias l='ls -lh'
 alias la='ls -lah'
 alias lg="lazygit"
 alias c="code"
 alias vim="nvim"
 alias py="python"
 alias mux="tmuxinator"
+alias l="tree -a -L 1"
 
 if [ -f ~/.zsh.local ]; then
   source ~/.zsh.local
