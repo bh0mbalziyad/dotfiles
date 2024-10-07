@@ -931,13 +931,19 @@ require('lazy').setup({
     priority = 1000, -- Make sure to load this before all the other start plugins.
     config = function()
       require('catppuccin').setup {
-        flavour = 'frappe',
+        flavour = 'macchiato',
         background = {
-          dark = 'mocha',
+          dark = 'macchiato',
+          light = 'latte',
         },
-        -- transparent_background = true,
+        transparent_background = true,
         styles = {
           comments = { 'italic' },
+        },
+        dim_inactive = {
+          enabled = false, -- dims the background color of inactive window
+          shade = 'dark',
+          percentage = 0.15, -- percentage of the shade to apply to the inactive window
         },
         default_integrations = true,
         integrations = {
