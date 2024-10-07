@@ -185,6 +185,9 @@ vim.keymap.set('n', '<leader>qD', vim.diagnostic.setloclist, { desc = 'Open [Q]u
 vim.keymap.set('n', '<leader>qh', '<cmd>cprev<CR>zz', { desc = 'Open [Q]uickfix Previous Item' })
 vim.keymap.set('n', '<leader>ql', '<cmd>cnext<CR>zz', { desc = 'Open [Q]uickfix Next Item' })
 
+-- Delete current buffer
+vim.keymap.set('n', '<leader>db', '<cmd>bdelete<CR>', { desc = '[D]elete [B]uffer' })
+
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.
@@ -883,7 +886,7 @@ require('lazy').setup({
           -- Manually trigger a completion from nvim-cmp.
           --  Generally you don't need this, because nvim-cmp will display
           --  completions whenever it has completion options available.
-          ['<C-.>'] = cmp.mapping.complete {},
+          ['<C-Space>'] = cmp.mapping.complete {},
 
           -- Think of <c-l> as moving to the right of your snippet expansion.
           --  So if you have a snippet that's like:
