@@ -85,7 +85,8 @@ alias c="code"
 alias vim="nvim"
 alias py="python"
 alias mux="tmuxinator"
-alias l="tree -a -L 1"
+alias lt="tree -a -L 1"
+alias v="nvim"
 
 if [ -f ~/.zsh.local ]; then
   source ~/.zsh.local
@@ -104,4 +105,9 @@ if command -v pyenv >/dev/null 2>&1; then
   command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
   eval "$(pyenv init -)"
   eval "$(pyenv virtualenv-init -)"
+fi
+
+
+if command -v zoxide >/dev/null 2>&1; then
+  eval "$(zoxide init --cmd cd zsh)"
 fi
