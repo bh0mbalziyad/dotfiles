@@ -188,6 +188,9 @@ vim.keymap.set('n', '<leader>ql', '<cmd>cnext<CR>zz', { desc = 'Open [Q]uickfix 
 -- Delete current buffer
 vim.keymap.set('n', '<leader>db', '<cmd>bdelete<CR>', { desc = '[D]elete [B]uffer' })
 
+-- Delete all buffers and open last buffer
+vim.keymap.set('n', '<leader>dab', '<cmd>%bd|e#<CR>', { desc = '[D]elete [A]ll [B]uffers' })
+
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.
@@ -428,7 +431,9 @@ require('lazy').setup({
       local builtin = require 'telescope.builtin'
       vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
-      vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
+      vim.keymap.set('n', '<leader>sf', function()
+        builtin.find_files { hidden = true }
+      end, { desc = '[S]earch [F]iles' })
       vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
       vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
       vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
