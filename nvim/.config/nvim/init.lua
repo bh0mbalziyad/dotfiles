@@ -652,7 +652,6 @@ require('lazy').setup({
 
       local yamllsCapabilities = vim.lsp.protocol.make_client_capabilities()
       yamllsCapabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
-
       yamllsCapabilities.textDocument.foldingRange = {
         dynamicRegistration = false,
         lineFoldingOnly = true,
@@ -660,8 +659,11 @@ require('lazy').setup({
 
       local jsonlsCapabilities = vim.lsp.protocol.make_client_capabilities()
       jsonlsCapabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
-
       jsonlsCapabilities.textDocument.completion.completionItem.snippetSupport = true
+
+      local ruffCapabilities = vim.lsp.protocol.make_client_capabilities()
+      ruffCapabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
+      ruffCapabilities.hoverProvider = false
 
       -- Enable the following language servers
       --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
@@ -677,6 +679,9 @@ require('lazy').setup({
           -- filetypes = {}
         },
         delve = {},
+        ruff = {
+          capabilities = ruffCapabilities,
+        },
         eslint = {},
         gopls = {},
         hadolint = {},
@@ -1001,20 +1006,12 @@ require('lazy').setup({
         -- Module mappings. Use `''` (empty string) to disable one.
         mappings = {
           -- Move visual selection in Visual mode. Defaults are Alt (Meta) + hjkl.
-          -- left = '<M-h>',
-          -- right = '<M-l>',
-          -- down = '<M-j>',
-          -- up = '<M-k>',
           left = '<M-Left>',
           right = '<M-Right>',
           down = '<M-Down>',
           up = '<M-Up>',
 
           -- Move current line in Normal mode
-          -- line_left = '<M-h>',
-          -- line_right = '<M-l>',
-          -- line_down = '<M-j>',
-          -- line_up = '<M-k>',
           line_left = '<M-Left>',
           line_right = '<M-Right>',
           line_down = '<M-Down>',
@@ -1028,52 +1025,6 @@ require('lazy').setup({
         },
       }
       require('mini.git').setup {}
-
-      -- Simple and easy statusline.
-      --  You could remove this setup call if you don't like it,
-      --  and try some other statusline plugin
-      local statusline = require 'mini.statusline'
-      -- set use_icons to true if you have a Nerd Font
-      statusline.setup {
-        use_icons = vim.g.have_nerd_font,
-        content = {
-          active = function()
-            local mode, mode_hl = MiniStatusline.section_mode { trunc_width = 9999 }
-
-            local git = vim.b.gitsigns_head
-            local git_icon = ''
-            local git_with_icon = git and (git .. ' ' .. git_icon .. ' ')
-            local diff = MiniStatusline.section_diff { trunc_width = 75 }
-            local diagnostics = MiniStatusline.section_diagnostics { trunc_width = 75 }
-            local filename = '%f%m%r'
-            local fileinfo = MiniStatusline.section_fileinfo { trunc_width = 120 }
-            local location = MiniStatusline.section_location { trunc_width = 75 }
-            local search = MiniStatusline.section_searchcount { trunc_width = 75 }
-
-            return MiniStatusline.combine_groups {
-              { hl = mode_hl, strings = { mode } },
-              { hl = 'MiniStatuslineDevinfo', strings = { git = git_with_icon, diff, diagnostics } },
-              '%<', -- Mark general truncate point
-              { hl = 'blaj', strings = { filename } },
-              '%=', -- End left alignment
-              { hl = 'MiniStatuslineFileinfo', strings = { fileinfo } },
-              { hl = mode_hl, strings = { search, location } },
-            }
-          end,
-          -- Function to return the inactive statusline content
-          inactive = function()
-            return '%f %m'
-          end,
-        },
-      }
-
-      -- You can configure sections in the statusline by overriding their
-      -- default behavior. For example, here we set the section for
-      -- cursor location to LINE:COLUMN
-      ---@diagnostic disable-next-line: duplicate-set-field
-      statusline.section_location = function()
-        return '%2l:%-2v'
-      end
 
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim

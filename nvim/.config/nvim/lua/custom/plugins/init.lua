@@ -4,11 +4,11 @@
 -- See the kickstart.nvim README for more information
 
 local ufo = require 'custom.plugins.ufo'
-local vimTmuxNavigator = require 'custom.plugins.vim-tmux-navigator'
 local bufferline = require 'custom.plugins.bufferline'
+local lualine = require 'custom.plugins.lualine'
 
 return {
   ufo,
-  vimTmuxNavigator,
+  lualine,
   bufferline,
 }

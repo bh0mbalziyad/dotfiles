@@ -32,13 +32,6 @@ local M = {
         },
       },
     }
-
-    -- Keymaps for jumping to visible buffers
-    for i = 1, 9, 1 do
-      vim.keymap.set('n', '<leader>' .. i, function()
-        bufferline.go_to(i)
-      end, { desc = string.format('Goto Buffer [%d]', i) })
-    end
   end,
 }
 
