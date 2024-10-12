@@ -676,11 +676,29 @@ require('lazy').setup({
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         bashls = {
-          -- filetypes = {}
+          filetypes = {
+            'bash',
+            'zsh',
+          },
         },
         delve = {},
         ruff = {
           capabilities = ruffCapabilities,
+        },
+        pyright = {
+          settings = {
+            pyright = {
+              autoImportCompletion = true,
+              -- Using Ruff's import organizer
+              disableOrganizeImports = true,
+            },
+            python = {
+              analysis = {
+                -- Ignore all files for analysis to exclusively use Ruff for linting
+                ignore = { '*' },
+              },
+            },
+          },
         },
         eslint = {},
         gopls = {},
