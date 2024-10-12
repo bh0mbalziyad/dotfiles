@@ -684,6 +684,14 @@ require('lazy').setup({
         delve = {},
         ruff = {
           capabilities = ruffCapabilities,
+          settings = {
+            init_options = {
+              settings = {
+                -- Server settings should go here
+                args = {},
+              },
+            },
+          },
         },
         pyright = {
           settings = {
