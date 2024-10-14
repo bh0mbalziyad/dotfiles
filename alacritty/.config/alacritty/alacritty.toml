@@ -1,17 +1,16 @@
 # https://github.com/alacritty/alacritty-theme
-# import = ["~/.config/alacritty/themes/themes/argonaut.toml"]
+import = ["~/.config/alacritty/themes/themes/tokyo-night.toml"]
 
 [shell]
 program = "/bin/zsh"
 args = ["-l"]
 
 [window]
-decorations = "Transparent"
-opacity = 0.6
+decorations = "full"
+# opacity = 0.6
 startup_mode = "Maximized"
 dynamic_title = true
-padding = { x = 0, y = 18 }
-dynamic_padding = true
+padding = { x = 0, y = 0 }
 
 [font]
 normal = { family = "JetBrainsMono Nerd Font", style = "Regular" }
