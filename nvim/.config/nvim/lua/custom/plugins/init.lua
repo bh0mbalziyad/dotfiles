@@ -6,9 +6,11 @@
 local ufo = require 'custom.plugins.ufo'
 local bufferline = require 'custom.plugins.bufferline'
 local lualine = require 'custom.plugins.lualine'
+local colorscheme = require 'custom.plugins.colorscheme'
 
 return {
   ufo,
   lualine,
   bufferline,
+  colorscheme,
 }

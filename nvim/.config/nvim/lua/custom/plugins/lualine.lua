@@ -8,6 +8,19 @@ local M = {
 
     lualine.setup {
       theme = 'nightfly',
+      sections = {
+        lualine_c = {
+          {
+
+            'filename',
+            path = 1,
+          },
+        },
+        lualine_x = {
+          'fileformat',
+          'filetype',
+        },
+      },
     }
   end,
 }
