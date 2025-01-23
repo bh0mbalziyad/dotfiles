@@ -12,7 +12,7 @@ gui:
 
   # Default size for focused window. Window size can be changed from within Lazygit with '+' and '_' (but this won't change the default).
   # One of: 'normal' (default) | 'half' | 'full'
-  windowSize: half
+  # windowSize: half
 
   # If true, jump to the Files panel after popping a stash
   switchToFilesAfterStashPop: true
