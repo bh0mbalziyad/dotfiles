@@ -717,7 +717,18 @@ require('lazy').setup({
         prettierd = {},
         shfmt = {},
         stylua = {},
-        tailwindcss = {},
+        tailwindcss = {
+          ettings = {
+            tailwindCSS = {
+              experimental = {
+                classRegex = {
+                  { 'cva\\(((?:[^()]|\\([^()]*\\))*)\\)', '["\'`]([^"\'`]*).*?["\'`]' },
+                  { 'cx\\(((?:[^()]|\\([^()]*\\))*)\\)', "(?:'|\"|`)([^']*)(?:'|\"|`)" },
+                },
+              },
+            },
+          },
+        },
         taplo = {},
         ts_ls = {},
         yamlls = {
