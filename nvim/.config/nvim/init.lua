@@ -718,7 +718,16 @@ require('lazy').setup({
         shfmt = {},
         stylua = {},
         tailwindcss = {
-          ettings = {
+          lint = {
+            cssConflict = 'warning',
+            invalidApply = 'error',
+            invalidConfigPath = 'error',
+            invalidScreen = 'error',
+            invalidTailwindDirective = 'error',
+            invalidVariant = 'error',
+            recommendedVariantOrder = 'warning',
+          },
+          settings = {
             tailwindCSS = {
               experimental = {
                 classRegex = {
