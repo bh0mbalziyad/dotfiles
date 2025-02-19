@@ -714,7 +714,15 @@ require('lazy').setup({
         },
         jsonlint = {},
         markdownlint = {},
-        prettierd = {},
+        prettierd = {
+          filetypes = {
+            'javascript',
+            'javascriptreact',
+            'typescript',
+            'typescriptreact',
+            'json',
+          },
+        },
         shfmt = {},
         stylua = {},
         tailwindcss = {
