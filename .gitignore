@@ -3,3 +3,4 @@
 .config/tmuxinator
 tmux/.config/tmux/plugins
 alacritty/.config/alacritty/themes
+**/*/Session.vim
