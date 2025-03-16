@@ -721,6 +721,7 @@ require('lazy').setup({
             'typescript',
             'typescriptreact',
             'json',
+            'graphql',
           },
         },
         shfmt = {},
