@@ -666,6 +666,11 @@ require('lazy').setup({
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
+        pgformatter = {
+          filetypes = {
+            'sql',
+          },
+        },
         bashls = {
           filetypes = {
             'bash',
@@ -860,6 +865,7 @@ require('lazy').setup({
         javascriptreact = { 'prettierd', 'prettier', stop_after_first = true },
         jsx = { 'prettierd', 'prettier', stop_after_first = true },
         json = { 'prettierd', 'prettier', stop_after_first = true },
+        sql = { 'pg_format', 'pgformatter', stop_after_first = true },
       },
     },
   },
