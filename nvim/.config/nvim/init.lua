@@ -185,11 +185,8 @@ vim.keymap.set('n', '<leader>qD', vim.diagnostic.setloclist, { desc = 'Open [Q]u
 vim.keymap.set('n', '<leader>qh', '<cmd>cprev<CR>zz', { desc = 'Open [Q]uickfix Previous Item' })
 vim.keymap.set('n', '<leader>ql', '<cmd>cnext<CR>zz', { desc = 'Open [Q]uickfix Next Item' })
 
--- Delete current buffer
-vim.keymap.set('n', '<leader>db', '<cmd>bdelete<CR>', { desc = '[D]elete [B]uffer' })
-
--- Delete all buffers and open last buffer
-vim.keymap.set('n', '<leader>dab', '<cmd>%bd|e#<CR>', { desc = '[D]elete [A]ll [B]uffers' })
+vim.keymap.set('n', '<leader>bdc', '<cmd>bdelete<CR>', { desc = '[B]uffer [D]elete [C]urrent' })
+vim.keymap.set('n', '<leader>bda', '<cmd>%bd|edit#|bd#<CR>', { desc = '[B]uffer [D]elete [A]ll' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
