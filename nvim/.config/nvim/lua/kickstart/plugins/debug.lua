@@ -22,33 +22,28 @@ return {
     'jay-babu/mason-nvim-dap.nvim',
 
     -- Add your own debuggers here
-    'leoluz/nvim-dap-go',
+    'mxsdev/nvim-dap-vscode-js',
   },
   keys = function(_, keys)
     local dap = require 'dap'
     local dapui = require 'dapui'
     return {
       -- Basic debugging keymaps, feel free to change to your liking!
-      { '<F5>', dap.continue, desc = 'Debug: Start/Continue' },
-      { '<F1>', dap.step_into, desc = 'Debug: Step Into' },
-      { '<F2>', dap.step_over, desc = 'Debug: Step Over' },
-      { '<F3>', dap.step_out, desc = 'Debug: Step Out' },
-      { '<leader>br', dap.toggle_breakpoint, desc = 'Debug: Toggle Breakpoint' },
-      {
-        '<leader>B',
-        function()
-          dap.set_breakpoint(vim.fn.input 'Breakpoint condition: ')
-        end,
-        desc = 'Debug: Set Breakpoint',
-      },
+      { '<leader>dt', dap.toggle_breakpoint, desc = '[D]ebug: Breakpoint [T]oggle' },
+      { '<leader>dc', dap.continue, desc = '[D]ebug: [C]ontinue' },
+      { '<leader>dC', dap.disconnect, desc = '[D]ebug: Dis[c]onnect' },
+      { '<leader>do', dap.continue, desc = '[D]ebug: Step [o]ver' },
+      { '<leader>dO', dap.continue, desc = '[D]ebug: Step [O]ut' },
+      { '<leader>dI', dap.continue, desc = '[D]ebug: Step [I]nto' },
       -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
-      { '<F7>', dapui.toggle, desc = 'Debug: See last session result.' },
+      { '<leader>dD', dapui.toggle, desc = '[D]ebug: See last session result.' },
       unpack(keys),
     }
   end,
   config = function()
     local dap = require 'dap'
     local dapui = require 'dapui'
+    local mason_registry = require 'mason-registry'
 
     require('mason-nvim-dap').setup {
       -- Makes a best effort to setup the various debuggers with
@@ -64,6 +59,7 @@ return {
       ensure_installed = {
         -- Update this to ensure that you have the debuggers for the langs you want
         'delve',
+        'js-debug-adapter',
       },
     }
 
@@ -89,17 +85,69 @@ return {
       },
     }
 
+    vim.fn.sign_define('DapBreakpoint', { text = '🟥', texthl = '', linehl = '', numhl = '' })
+    vim.fn.sign_define('DapStopped', { text = '▶️', texthl = '', linehl = '', numhl = '' })
+
     dap.listeners.after.event_initialized['dapui_config'] = dapui.open
     dap.listeners.before.event_terminated['dapui_config'] = dapui.close
     dap.listeners.before.event_exited['dapui_config'] = dapui.close
 
-    -- Install golang specific config
-    require('dap-go').setup {
-      delve = {
-        -- On Windows delve must be run attached or it crashes.
-        -- See https://github.com/leoluz/nvim-dap-go/blob/main/README.md#configuring
-        detached = vim.fn.has 'win32' == 0,
-      },
-    }
+    local vscode_js_debug_dap = mason_registry.get_package 'js-debug-adapter'
+
+    if not dap.adapters['pwa-node'] then
+      require('dap').adapters['pwa-node'] = {
+        type = 'server',
+        host = 'localhost',
+        port = '${port}',
+        executable = {
+          command = 'node',
+          -- 💀 Make sure to update this path to point to your installation
+          args = {
+            vscode_js_debug_dap:get_install_path() .. '/js-debug/src/dapDebugServer.js',
+            '${port}',
+          },
+        },
+      }
+    end
+    if not dap.adapters['node'] then
+      dap.adapters['node'] = function(cb, config)
+        if config.type == 'node' then
+          config.type = 'pwa-node'
+        end
+        local nativeAdapter = dap.adapters['pwa-node']
+        if type(nativeAdapter) == 'function' then
+          nativeAdapter(cb, config)
+        else
+          cb(nativeAdapter)
+        end
+      end
+    end
+
+    local js_filetypes = { 'typescript', 'javascript', 'typescriptreact', 'javascriptreact' }
+
+    local vscode = require 'dap.ext.vscode'
+    vscode.type_to_filetypes['node'] = js_filetypes
+    vscode.type_to_filetypes['pwa-node'] = js_filetypes
+
+    for _, language in ipairs(js_filetypes) do
+      if not dap.configurations[language] then
+        dap.configurations[language] = {
+          {
+            type = 'pwa-node',
+            request = 'launch',
+            name = 'Launch file',
+            program = '${file}',
+            cwd = '${workspaceFolder}',
+          },
+          {
+            type = 'pwa-node',
+            request = 'attach',
+            name = 'Attach',
+            processId = require('dap.utils').pick_process,
+            cwd = '${workspaceFolder}',
+          },
+        }
+      end
+    end
   end,
 }
