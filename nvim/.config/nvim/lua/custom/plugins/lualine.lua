@@ -3,6 +3,7 @@ local M = {
   dependencies = {
     'nvim-tree/nvim-web-devicons',
     'tpope/vim-obsession',
+    'folke/noice.nvim',
   },
   config = function()
     local lualine = require 'lualine'
@@ -27,6 +28,11 @@ local M = {
           },
         },
         lualine_x = {
+          {
+            require('noice').api.status.mode.get,
+            cond = require('noice').api.status.mode.has,
+            color = { fg = '#ff9e64' },
+          },
           'fileformat',
           'filetype',
           obsession_status,
