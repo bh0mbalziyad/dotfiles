@@ -626,11 +626,11 @@ require('lazy').setup({
           -- code, if the language server you are using supports them
           --
           -- This may be unwanted, since they displace some of your code
-          if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
-            map('<leader>th', function()
-              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
-            end, '[T]oggle Inlay [H]ints')
-          end
+          -- if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
+          --   map('<leader>th', function()
+          --     vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
+          --   end, '[T]oggle Inlay [H]ints')
+          -- end
         end,
       })
 
@@ -640,21 +640,6 @@ require('lazy').setup({
       --  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
-
-      local yamllsCapabilities = vim.lsp.protocol.make_client_capabilities()
-      yamllsCapabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
-      yamllsCapabilities.textDocument.foldingRange = {
-        dynamicRegistration = false,
-        lineFoldingOnly = true,
-      }
-
-      local jsonlsCapabilities = vim.lsp.protocol.make_client_capabilities()
-      jsonlsCapabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
-      jsonlsCapabilities.textDocument.completion.completionItem.snippetSupport = true
-
-      local ruffCapabilities = vim.lsp.protocol.make_client_capabilities()
-      ruffCapabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
-      ruffCapabilities.hoverProvider = false
 
       -- Enable the following language servers
       --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
@@ -666,11 +651,12 @@ require('lazy').setup({
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
-        pgformatter = {
-          filetypes = {
-            'sql',
-          },
-        },
+        postgrestools = {},
+        -- pgformatter = {
+        --   filetypes = {
+        --     'sql',
+        --   },
+        -- },
         bashls = {
           filetypes = {
             'bash',
@@ -679,7 +665,9 @@ require('lazy').setup({
         },
         delve = {},
         ruff = {
-          capabilities = ruffCapabilities,
+          capabilities = {
+            hoverProvider = false,
+          },
           settings = {
             init_options = {
               settings = {
@@ -720,7 +708,15 @@ require('lazy').setup({
               validate = { enable = true },
             },
           },
-          capabilities = jsonlsCapabilities,
+          capabilities = {
+            textDocument = {
+              completion = {
+                completionItem = {
+                  snippetSupport = true,
+                },
+              },
+            },
+          },
         },
         jsonlint = {},
         markdownlint = {},
@@ -760,7 +756,20 @@ require('lazy').setup({
         taplo = {},
         ts_ls = {},
         yamlls = {
-          capabilities = yamllsCapabilities,
+          -- local yamllsCapabilities = vim.lsp.protocol.make_client_capabilities()
+          -- yamllsCapabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
+          -- yamllsCapabilities.textDocument.foldingRange = {
+          --   dynamicRegistration = false,
+          --   lineFoldingOnly = true,
+          -- }
+          capabilities = {
+            textDocument = {
+              foldingRange = {
+                dynamicRegistration = false,
+                lineFoldingOnly = true,
+              },
+            },
+          },
           settings = {
             yaml = {
               schemaStore = {
@@ -806,7 +815,10 @@ require('lazy').setup({
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
+      ---@diagnostic disable-next-line: missing-fields
       require('mason-lspconfig').setup {
+        -- ensure_installed = ensure_installed,
+        automatic_installation = true,
         handlers = {
           function(server_name)
             local server = servers[server_name] or {}
@@ -872,20 +884,20 @@ require('lazy').setup({
 
   { -- Autocompletion
     'hrsh7th/nvim-cmp',
-    event = 'InsertEnter',
+    -- event = 'InsertEnter',
     dependencies = {
       -- Snippet Engine & its associated nvim-cmp source
       {
         'L3MON4D3/LuaSnip',
-        build = (function()
-          -- Build Step is needed for regex support in snippets.
-          -- This step is not supported in many windows environments.
-          -- Remove the below condition to re-enable on windows.
-          if vim.fn.has 'win32' == 1 or vim.fn.executable 'make' == 0 then
-            return
-          end
-          return 'make install_jsregexp'
-        end)(),
+        -- build = (functin()
+        --   -- Build Step is needed for regex support in snippets.
+        --   -- This step is not supported in many windows environments.
+        --   -- Remove the below condition to re-enable on windows.
+        --   if vim.fn.has 'win32' == 1 or vim.fn.executable 'make' == 0 then
+        --     return
+        --   end
+        --   return 'make install_jsregexp'
+        -- end)(),
         dependencies = {
           -- `friendly-snippets` contains a variety of premade snippets.
           --    See the README about individual language/framework/plugin snippets:
@@ -897,6 +909,9 @@ require('lazy').setup({
             end,
           },
         },
+        config = function()
+          require('luasnip.loaders.from_lua').lazy_load()
+        end,
       },
       'saadparwaiz1/cmp_luasnip',
 
@@ -905,7 +920,10 @@ require('lazy').setup({
       --  into multiple repos for maintenance purposes.
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-path',
+      'kristijanhusak/vim-dadbod-completion',
+      'hrsh7th/cmp-buffer',
     },
+
     config = function()
       -- See `:help cmp`
       local cmp = require 'cmp'
@@ -918,7 +936,7 @@ require('lazy').setup({
             luasnip.lsp_expand(args.body)
           end,
         },
-        completion = { completeopt = 'menu,menuone,noinsert' },
+        completion = { completeopt = 'menu,menuone,noinsert,noselect' },
 
         -- For an understanding of why these mappings were
         -- chosen, you will need to read `:help ins-completion`
@@ -945,7 +963,7 @@ require('lazy').setup({
           ['<Tab>'] = cmp.mapping.select_next_item(),
           ['<S-Tab>'] = cmp.mapping.select_prev_item(),
 
-          -- Manually trigger a completion from nvim-cmp.
+          -- Manually show completion UI from nvim-cmp.
           --  Generally you don't need this, because nvim-cmp will display
           --  completions whenever it has completion options available.
           ['<C-Space>'] = cmp.mapping.complete {},
@@ -981,6 +999,7 @@ require('lazy').setup({
           { name = 'nvim_lsp' },
           { name = 'luasnip' },
           { name = 'path' },
+          { name = 'buffer' },
         },
         sorting = {
           priority_weight = 2,
