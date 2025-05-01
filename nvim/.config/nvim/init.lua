@@ -884,6 +884,7 @@ require('lazy').setup({
 
   { -- Autocompletion
     'hrsh7th/nvim-cmp',
+    -- NOTE: snippets dont work when this is set
     -- event = 'InsertEnter',
     dependencies = {
       -- Snippet Engine & its associated nvim-cmp source
@@ -906,6 +907,10 @@ require('lazy').setup({
             'rafamadriz/friendly-snippets',
             config = function()
               require('luasnip.loaders.from_vscode').lazy_load()
+              require('luasnip.loaders.from_vscode').load_standalone {
+                -- path = '~/project.code-snippets',
+                path = 'project.code-snippets',
+              }
             end,
           },
         },
