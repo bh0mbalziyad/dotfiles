@@ -114,6 +114,8 @@ vim.o.mousemoveevent = true
 
 vim.o.breakindent = true
 
+vim.o.ignorecase = true
+
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
 
@@ -652,11 +654,7 @@ require('lazy').setup({
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         postgrestools = {},
-        -- pgformatter = {
-        --   filetypes = {
-        --     'sql',
-        --   },
-        -- },
+        astro = {},
         bashls = {
           filetypes = {
             'bash',
