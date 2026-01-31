@@ -85,7 +85,6 @@ alias c="code"
 alias vim="nvim"
 alias py="python"
 alias mux="tmuxinator"
-alias lt="tree -a -L 1"
 alias v="nvim"
 
 if [ -f ~/.zsh.local ]; then
@@ -103,3 +102,10 @@ fi
 if command -v zoxide >/dev/null 2>&1; then
   eval "$(zoxide init --cmd cd zsh)"
 fi
+
+# bun completions
+[ -s "/Users/radical/.bun/_bun" ] && source "/Users/radical/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
