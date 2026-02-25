@@ -195,6 +195,10 @@ vim.keymap.set('n', '<leader>qD', vim.diagnostic.setloclist, { desc = 'Open [Q]u
 vim.keymap.set('n', '<leader>qh', '<cmd>cprev<CR>zz', { desc = 'Open [Q]uickfix Previous Item' })
 vim.keymap.set('n', '<leader>ql', '<cmd>cnext<CR>zz', { desc = 'Open [Q]uickfix Next Item' })
 
+vim.keymap.set('n', '<leader>tabn', '<cmd>tabnew<CR>', { desc = '[T][A]b [New]' })
+vim.keymap.set('n', '<leader>tabc', '<cmd>tabc<CR>', { desc = '[T][A]b Delete [C]urrent' })
+vim.keymap.set('n', '<leader>taba', '<cmd>tabo<CR>', { desc = '[T][A]b Delete [A]ll' })
+
 vim.keymap.set('n', '<leader>bdc', '<cmd>bdelete<CR>', { desc = '[B]uffer [D]elete [C]urrent' })
 vim.keymap.set('n', '<leader>bda', '<cmd>%bd|edit#|bd#<CR>', { desc = '[B]uffer [D]elete [A]ll' })
 
@@ -988,7 +992,7 @@ require('lazy').setup({
           -- Manually show completion UI from nvim-cmp.
           --  Generally you don't need this, because nvim-cmp will display
           --  completions whenever it has completion options available.
-          ['<C-Space>'] = cmp.mapping.complete {},
+          ['<C-Space'] = cmp.mapping.complete {},
 
           -- Think of <c-l> as moving to the right of your snippet expansion.
           --  So if you have a snippet that's like:
