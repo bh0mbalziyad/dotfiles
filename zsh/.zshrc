@@ -79,21 +79,11 @@ zstyle ':completion:*' list-colors '${(s.:.)LS_COLORS}'
 zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 
-alias la='ls -lah'
-alias lg="lazygit"
-alias c="code"
-alias vim="nvim"
-alias py="python"
-alias mux="tmuxinator"
-alias v="nvim"
 
 if [ -f ~/.zsh.local ]; then
   source ~/.zsh.local
 fi
 
-export NVM_DIR="$HOME/.config/nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 if [[ "$os_name" == "Darwin" ]]; then
   PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
@@ -102,10 +92,3 @@ fi
 if command -v zoxide >/dev/null 2>&1; then
   eval "$(zoxide init --cmd cd zsh)"
 fi
-
-# bun completions
-[ -s "/Users/radical/.bun/_bun" ] && source "/Users/radical/.bun/_bun"
-
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
