@@ -687,7 +687,6 @@ require('lazy').setup({
             'zsh',
           },
         },
-        delve = {},
         ruff = {
           capabilities = {
             hoverProvider = false,
@@ -718,7 +717,6 @@ require('lazy').setup({
         },
         eslint = {},
         ts_ls = {},
-        gopls = {},
         hadolint = {},
         harper_ls = {
           filetypes = {
