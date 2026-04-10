@@ -92,3 +92,6 @@ fi
 if command -v zoxide >/dev/null 2>&1; then
   eval "$(zoxide init --cmd cd zsh)"
 fi
+
+# bun completions
+[ -s "/Users/radical/.bun/_bun" ] && source "/Users/radical/.bun/_bun"
