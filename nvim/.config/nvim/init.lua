@@ -718,12 +718,6 @@ require('lazy').setup({
         eslint = {},
         ts_ls = {},
         hadolint = {},
-        harper_ls = {
-          filetypes = {
-            'markdown',
-            'txt',
-          },
-        },
         jsonls = {
           settings = {
             json = {
@@ -900,6 +894,7 @@ require('lazy').setup({
         jsx = { 'prettierd', 'prettier', stop_after_first = true },
         json = { 'prettierd', 'prettier', stop_after_first = true },
         sql = { 'pg_format', 'pgformatter', stop_after_first = true },
+        markdown = { 'prettierd', 'prettier', stop_after_first = true },
       },
     },
   },
@@ -1058,7 +1053,7 @@ require('lazy').setup({
   },
 
   -- Highlight todo, notes, etc in comments
-  { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
+  { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = true } },
 
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
