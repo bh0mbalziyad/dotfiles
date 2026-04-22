@@ -1,3 +1,6 @@
 font-size = 14
 theme = TokyoNight Night
 title = Shell
+notify-on-command-finish =  always
+notify-on-command-finish-action = bell
+notify-on-command-finish-after = 1s
