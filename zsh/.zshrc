@@ -63,6 +63,12 @@ bindkey '^[[B' history-search-forward
 # bindkey '^[[A' history-substring-search-up
 # bindkey '^[[B' history-substring-search-down
 
+
+# edit current inline command inside editor
+autoload -U edit-command-line; 
+zle -N edit-command-line; 
+bindkey '^Fc' edit-command-line;
+
 HISTSIZE=5000
 HISTFILE=~/.zsh_history
 SAVEHIST=$HISTSIZE
