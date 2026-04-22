@@ -98,8 +98,6 @@ vim.g.have_nerd_font = true
 -- NOTE: You can change these options as you wish!
 --  For more options, you can see `:help option-list`
 
--- Set fold options
-
 -- Make line numbers default
 vim.opt.number = true
 -- You can also add relative line numbers, to help with jumping.
@@ -135,7 +133,7 @@ vim.keymap.set('n', '<leader>cba', function()
 end, { desc = '[C]opy [B]uffer [A]bsolute Path' })
 
 vim.keymap.set('n', '<leader>cbr', function()
-  vim.fn.setreg('*', vim.fn.expand '%')
+  vim.fn.setreg('*', vim.fn.expand '%:~:.')
 end, { desc = '[C]opy [B]uffer [R]elative Path' })
 
 -- Enable break indent
@@ -228,9 +226,6 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
--- Show diagnostic under cursor in floating window
-vim.keymap.set('n', '<leader>cd', vim.diagnostic.open_float, { desc = '[C]ode [D]iagnostic' })
-
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -244,6 +239,23 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.highlight.on_yank()
   end,
 })
+
+vim.api.nvim_create_user_command('TokenCount', function()
+  local text = table.concat(vim.api.nvim_buf_get_lines(0, 0, -1, false), '\n')
+  local result = vim.fn.system({
+    'uv',
+    'run',
+    '--with',
+    'tiktoken',
+    '--no-project',
+    'python',
+    '-c',
+    'import sys,tiktoken; enc=tiktoken.get_encoding("cl100k_base"); print(len(enc.encode(sys.stdin.read())))',
+  }, text)
+  vim.notify('Tokens: ' .. vim.trim(result))
+end, {})
+
+vim.keymap.set('n', '<leader>cbt', '<cmd>TokenCount<CR>', { desc = '[C]opy [B]uffer [T]oken Count' })
 
 vim.diagnostic.config {
   virtual_text = false,
@@ -804,20 +816,6 @@ require('lazy').setup({
         },
         taplo = {},
         yamlls = {
-          -- local yamllsCapabilities = vim.lsp.protocol.make_client_capabilities()
-          -- yamllsCapabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
-          -- yamllsCapabilities.textDocument.foldingRange = {
-          --   dynamicRegistration = false,
-          --   lineFoldingOnly = true,
-          -- }
-          capabilities = {
-            textDocument = {
-              foldingRange = {
-                dynamicRegistration = false,
-                lineFoldingOnly = true,
-              },
-            },
-          },
           settings = {
             yaml = {
               schemaStore = {
@@ -828,6 +826,14 @@ require('lazy').setup({
                 url = '',
               },
               schemas = require('schemastore').yaml.schemas(),
+            },
+          },
+          capabilities = {
+            textDocument = {
+              foldingRange = {
+                dynamicRegistration = false,
+                lineFoldingOnly = true,
+              },
             },
           },
         },
@@ -1158,8 +1164,8 @@ require('lazy').setup({
 
         -- enables treesitter based folds
         -- for more info on folds see `:help folds`
-        -- vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
-        -- vim.wo.foldmethod = 'expr'
+        vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+        vim.wo.foldmethod = 'expr'
 
         -- check if treesitter indentation is available for this language, and if so enable it
         -- in case there is no indent query, the indentexpr will fallback to the vim's built in one
