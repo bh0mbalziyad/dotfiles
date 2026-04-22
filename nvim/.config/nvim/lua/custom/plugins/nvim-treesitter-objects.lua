@@ -57,14 +57,6 @@ local M = {
       select.select_textobject('@parameter.inner', 'textobjects')
     end, { desc = '[I]nside [A]rgument' })
 
-    -- Blocks
-    vim.keymap.set({ 'x', 'o' }, 'ab', function()
-      select.select_textobject('@block.outer', 'textobjects')
-    end, { desc = '[A]round [B]lock' })
-    vim.keymap.set({ 'x', 'o' }, 'ib', function()
-      select.select_textobject('@block.inner', 'textobjects')
-    end, { desc = '[I]nside [B]lock' })
-
     -- Return values
     vim.keymap.set({ 'x', 'o' }, 'ar', function()
       select.select_textobject('@return.outer', 'textobjects')
