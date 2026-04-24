@@ -1,3 +1,41 @@
+export XDG_CONFIG_HOME="$HOME/.config"
+export EDITOR="nvim"
+export GPG_TTY=$(tty)
+# make claude use system installed ripgrep
+export USE_BUILTIN_RIPGREP=0
+
+# password store
+
+export PASSWORD_STORE_ENABLE_EXTENSIONS=true
+export PASSWORD_STORE_EXTENSIONS_DIR="$HOME/.password-store/.extensions"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
+
+
+# java
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
+
+# Android Studio
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+
+# Mysql
+export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
+export NVM_DIR="$HOME/.nvm"
+
+export FZF_DEFAULT_OPTS="--preview 'bat --color=always {}'"
+
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/private/tmp/google-cloud-sdk/path.zsh.inc' ]; then . '/private/tmp/google-cloud-sdk/path.zsh.inc'; fi
+# The next line enables shell command completion for gcloud.
+if [ -f '/private/tmp/google-cloud-sdk/completion.zsh.inc' ]; then . '/private/tmp/google-cloud-sdk/completion.zsh.inc'; fi
+
+
 os_name=$(uname)
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -6,10 +44,6 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-export FZF_DEFAULT_OPTS="--preview 'bat --color=always {}'"
-export EDITOR="nvim"
-export XDG_CONFIG_HOME="$HOME/.config"
-export GPG_TTY=$(tty)
 
 
 # brew cli completions
@@ -92,7 +126,7 @@ fi
 
 
 if [[ "$os_name" == "Darwin" ]]; then
-  PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+  PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
 fi
 
 if command -v zoxide >/dev/null 2>&1; then
@@ -100,4 +134,19 @@ if command -v zoxide >/dev/null 2>&1; then
 fi
 
 # bun completions
-[ -s "/Users/radical/.bun/_bun" ] && source "/Users/radical/.bun/_bun"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+
+# nvm
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
+# activate nvm default node so its bin wins over /opt/homebrew/bin
+if command -v nvm >/dev/null 2>&1; then
+  nvm use default --silent >/dev/null 2>&1
+fi
+
+
+# uv
+if command -v uv >/dev/null 2>&1; then
+  eval "$(uv generate-shell-completion zsh)"
+fi
