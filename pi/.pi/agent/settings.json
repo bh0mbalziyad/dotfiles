@@ -1,0 +1,114 @@
+{
+  "lastChangelogVersion": "0.70.2",
+  "defaultProvider": "opencode-go",
+  "defaultModel": "qwen3.5-plus",
+  "shellCommandPrefix": "shopt -s expand_aliases\neval \"$(grep '^alias ' ~/.zshrc)\"",
+  "quietStartup": true,
+  "doubleEscapeAction": "tree",
+  "packages": [
+    "npm:pi-mcp-adapter",
+    "npm:pi-subagents",
+    "npm:@touchskyer/memex",
+    "npm:@ifi/oh-pi-themes",
+    {
+      "source": "npm:@ifi/oh-pi-prompts",
+      "prompts": [
+        "+prompts/refactor.md"
+      ]
+    },
+    {
+      "source": "npm:@ifi/oh-pi-skills",
+      "skills": [
+        "-skills/debug-helper/SKILL.md",
+        "-skills/flutter-serverpod-mvp/SKILL.md",
+        "-skills/glassmorphism/SKILL.md",
+        "-skills/grill-me/SKILL.md",
+        "-skills/improve-codebase-architecture/SKILL.md",
+        "-skills/liquid-glass/SKILL.md",
+        "+skills/git-workflow/SKILL.md",
+        "+skills/context7/SKILL.md",
+        "-skills/neubrutalism/SKILL.md",
+        "+skills/quick-setup/SKILL.md",
+        "+skills/request-refactor-plan/SKILL.md",
+        "-skills/rust-workspace-bootstrap/SKILL.md",
+        "-skills/btw/SKILL.md",
+        "-skills/claymorphism/SKILL.md"
+      ]
+    },
+    {
+      "source": "npm:@ifi/oh-pi-extensions",
+      "extensions": [
+        "-extensions/bg-process.ts",
+        "-extensions/btw.ts",
+        "-extensions/scheduler.ts",
+        "-extensions/watchdog.ts",
+        "+extensions/git-guard.ts",
+        "-extensions/compact-header.ts",
+        "+extensions/auto-update.ts",
+        "-extensions/safe-guard.ts",
+        "-extensions/usage-tracker.ts",
+        "-extensions/auto-session-name.ts",
+        "-extensions/custom-footer.ts"
+      ]
+    },
+    "npm:@plannotator/pi-extension",
+    {
+      "source": "npm:pi-agent-extensions",
+      "extensions": [
+        "-extensions/answer/index.ts",
+        "-extensions/ask-user/index.ts",
+        "-extensions/btw/index.ts",
+        "-extensions/control/index.ts",
+        "-extensions/context/index.ts",
+        "-extensions/cwd-history/index.ts",
+        "-extensions/loop/index.ts",
+        "-extensions/nvidia-nim/index.ts",
+        "+extensions/notify/index.ts",
+        "-extensions/review/index.ts",
+        "+extensions/files/index.ts",
+        "+extensions/handoff/index.ts",
+        "+extensions/todos/index.ts",
+        "+extensions/sessions/index.ts",
+        "+extensions/session-breakdown/index.ts",
+        "-extensions/powerline-footer/index.ts"
+      ]
+    },
+    "npm:@tmustier/pi-usage-extension",
+    "npm:pi-powerline-footer"
+  ],
+  "theme": "catppuccin-mocha",
+  "subagents": {
+    "agentOverrides": {
+      "planner": {
+        "model": "opencode-go/deepseek-v4-flash",
+        "systemPromptMode": "append",
+        "systemPrompt": "--append-prompt-here"
+      },
+      "delegate": {
+        "model": "opencode-go/qwen3.5-plus"
+      },
+      "context-builder": {
+        "model": "opencode-go/minimax-m2.5"
+      },
+      "researcher": {
+        "model": "opencode-go/qwen3.5-plus"
+      },
+      "reviewer": {
+        "model": "opencode-go/qwen3.5-plus"
+      },
+      "scout": {
+        "model": "opencode-go/qwen3.5-plus"
+      },
+      "worker": {
+        "model": "opencode-go/qwen3.5-plus"
+      }
+    }
+  },
+  "hideThinkingBlock": true,
+  "terminal": {
+    "showTerminalProgress": true
+  },
+  "collapseChangelog": true,
+  "defaultThinkingLevel": "medium",
+  "powerline": "compact"
+}
