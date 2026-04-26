@@ -29,6 +29,8 @@ export NVM_DIR="$HOME/.nvm"
 
 export FZF_DEFAULT_OPTS="--preview 'bat --color=always {}'"
 
+# tmux session wizard
+export PATH="$XDG_CONFIG_HOME/tmux/plugins/tmux-session-wizard/bin:$PATH"
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/private/tmp/google-cloud-sdk/path.zsh.inc' ]; then . '/private/tmp/google-cloud-sdk/path.zsh.inc'; fi
