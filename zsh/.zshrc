@@ -27,7 +27,7 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
 export NVM_DIR="$HOME/.nvm"
 
-export FZF_DEFAULT_OPTS="--preview 'bat --color=always {}'"
+export FZF_DEFAULT_OPTS="--preview 'if [ -f {} ]; then bat --color=always {}; else echo \"{}\"; fi'"
 
 # tmux session wizard
 export PATH="$XDG_CONFIG_HOME/tmux/plugins/tmux-session-wizard/bin:$PATH"
