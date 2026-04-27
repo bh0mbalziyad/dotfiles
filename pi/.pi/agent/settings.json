@@ -1,7 +1,7 @@
 {
   "lastChangelogVersion": "0.70.2",
   "defaultProvider": "opencode-go",
-  "defaultModel": "qwen3.5-plus",
+  "defaultModel": "kimi-k2.6",
   "shellCommandPrefix": "shopt -s expand_aliases\neval \"$(grep '^alias ' ~/.zshrc)\"",
   "quietStartup": true,
   "doubleEscapeAction": "tree",
