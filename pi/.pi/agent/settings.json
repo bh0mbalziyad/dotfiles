@@ -1,7 +1,7 @@
 {
-  "lastChangelogVersion": "0.70.2",
+  "lastChangelogVersion": "0.70.6",
   "defaultProvider": "opencode-go",
-  "defaultModel": "kimi-k2.6",
+  "defaultModel": "deepseek-v4-flash",
   "shellCommandPrefix": "shopt -s expand_aliases\neval \"$(grep '^alias ' ~/.zshrc)\"",
   "quietStartup": true,
   "doubleEscapeAction": "tree",
@@ -74,7 +74,8 @@
       ]
     },
     "npm:@tmustier/pi-usage-extension",
-    "npm:pi-powerline-footer"
+    "npm:pi-powerline-footer",
+    "npm:pi-notify"
   ],
   "theme": "catppuccin-mocha",
   "subagents": {
