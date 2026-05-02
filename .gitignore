@@ -4,3 +4,4 @@
 tmux/.config/tmux/plugins
 alacritty/.config/alacritty/themes
 **/*/Session.vim
+/pi/.pi/agent/prompts/*.private.md
