@@ -1,7 +1,7 @@
 {
   "lastChangelogVersion": "0.72.1",
   "defaultProvider": "opencode-go",
-  "defaultModel": "deepseek-v4-flash",
+  "defaultModel": "deepseek-v4-pro",
   "shellCommandPrefix": "shopt -s expand_aliases\neval \"$(grep '^alias ' ~/.zshrc)\"",
   "quietStartup": true,
   "doubleEscapeAction": "tree",
@@ -98,10 +98,10 @@
         "model": "opencode-go/qwen3.5-plus"
       },
       "scout": {
-        "model": "opencode-go/qwen3.5-plus"
+        "model": "opencode-go/glm-5.1"
       },
       "worker": {
-        "model": "opencode-go/qwen3.5-plus"
+        "model": "opencode-go/deepseek-v4-pro"
       }
     }
   },
@@ -110,6 +110,6 @@
     "showTerminalProgress": true
   },
   "collapseChangelog": true,
-  "defaultThinkingLevel": "medium",
+  "defaultThinkingLevel": "high",
   "powerline": "compact"
 }
